@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  notes:
+    build:
+      context: .
+    ports:
+      - 3333:3000 # port app
+      - 9229:9229 # port debug
+    environment:
+      - SERVER_PORT=3000 # port app
+      - CONNECTIONSTRING=mongodb://mongo:27017/notes # connection string
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npm run debug
+
+  mongo:
+    image: mongo:4.2.8
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+volumes:
+  mongodb:
+  mongodb_config:
